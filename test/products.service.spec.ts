@@ -27,49 +27,13 @@ describe('ProductsService', () => {
     expect(service).toBeDefined();
   });
 
-//   const createQueryBuilderMock = () => ({
-//     where: jest.fn().mockReturnThis(),
-//     skip: jest.fn().mockReturnThis(),
-//     take: jest.fn().mockReturnThis(),
-//     getManyAndCount: jest.fn().mockResolvedValue([[], 0]),
-//   });
-
-//   it('should return search results', async () => {
-//     const query = 'test';
-//     const products = [
-//       {
-//         id: 1,
-//         name: 'Test Product',
-//         description: 'Description for Test Product',
-//         category: 'Test Category',
-//         tags: ['test', 'product'],
-//       },
-//     ];
-
-//     jest.spyOn(repository, 'createQueryBuilder').mockReturnValue(createQueryBuilderMock());
-//     (repository.createQueryBuilder().getManyAndCount as jest.Mock).mockResolvedValue([products, 1]);
-
-//     const result = await service.searchProducts(query);
-
-//     expect(result).toEqual({ total: 1, results: products });
-//   });
-
-// const createQueryBuilderMock = () => ({
-//     where: jest.fn().mockReturnThis(),
-//     skip: jest.fn().mockReturnThis(),
-//     take: jest.fn().mockReturnThis(),
-//     getManyAndCount: jest.fn().mockResolvedValue([[], 0]),
-//   } as jest.Mocked<SelectQueryBuilder<Product>>);
-
-const createQueryBuilderMock = jest.fn(() => ({
+  const createQueryBuilderMock = () => ({
     where: jest.fn().mockReturnThis(),
     skip: jest.fn().mockReturnThis(),
     take: jest.fn().mockReturnThis(),
-    getManyAndCount: jest.fn().mockResolvedValue([[], 0]),
-  }));
-  
-  jest.spyOn(repository, 'createQueryBuilder').mockImplementation(createQueryBuilderMock);
-  
+    getManyAndCount: jest.fn(),
+  });
+
   it('should return search results', async () => {
     const query = 'test';
     const products = [

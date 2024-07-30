@@ -15,11 +15,18 @@ describe('ProductsController', () => {
     const module: TestingModule = await Test.createTestingModule({
       controllers: [ProductsController],
       providers: [
-        ProductsService,
-        {
-          provide: getRepositoryToken(Product),
-          useClass: Repository,
-        },
+        // ProductsService,
+        // {
+        //   provide: getRepositoryToken(Product),
+        //   useClass: Repository,
+        // },
+
+                {
+          provide: ProductsService,
+          useValue: {
+            searchProducts: jest.fn(),
+          },
+        }
       ],
     }).compile();
 
