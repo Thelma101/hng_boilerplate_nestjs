@@ -3,8 +3,6 @@ import { ProductsController } from '../src/products/products.controller';
 import { ProductsService } from '../src/products/products.service';
 import { getRepositoryToken } from '@nestjs/typeorm';
 import { Product } from '../src/products/entities/product.entity';
-import { Repository } from 'typeorm';
-import { BadRequestException } from '@nestjs/common';
 
 describe('ProductsController', () => {
   let controller: ProductsController;
@@ -19,6 +17,10 @@ describe('ProductsController', () => {
           useValue: {
             searchProducts: jest.fn(),
           },
+        },
+        {
+          provide: getRepositoryToken(Product),
+          useValue: {},
         },
       ],
     }).compile();
