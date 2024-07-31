@@ -1,12 +1,19 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import { ProductsService } from '../src/products/products.service';
 import { getRepositoryToken } from '@nestjs/typeorm';
-import { Repository } from 'typeorm';
+import { Repository, SelectQueryBuilder } from 'typeorm';
 import { Product } from '../src/products/entities/product.entity';
 
 describe('ProductsService', () => {
   let service: ProductsService;
   let repository: Repository<Product>;
+
+  const createQueryBuilderMock = () => ({
+    where: jest.fn().mockReturnThis(),
+    skip: jest.fn().mockReturnThis(),
+    take: jest.fn().mockReturnThis(),
+    getManyAndCount: jest.fn(),
+  } as unknown as jest.Mocked<SelectQueryBuilder<Product>>);
 
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
@@ -27,13 +34,6 @@ describe('ProductsService', () => {
     expect(service).toBeDefined();
   });
 
-  const createQueryBuilderMock = () => ({
-    where: jest.fn().mockReturnThis(),
-    skip: jest.fn().mockReturnThis(),
-    take: jest.fn().mockReturnThis(),
-    getManyAndCount: jest.fn(),
-  });
-
   it('should return search results', async () => {
     const query = 'test';
     const products = [
@@ -45,12 +45,12 @@ describe('ProductsService', () => {
         tags: ['test', 'product'],
       },
     ];
-  
+
     jest.spyOn(repository, 'createQueryBuilder').mockReturnValue(createQueryBuilderMock());
     (repository.createQueryBuilder().getManyAndCount as jest.Mock).mockResolvedValue([products, 1]);
-  
+
     const result = await service.searchProducts(query);
-  
+
     expect(result).toEqual({ total: 1, results: products });
   });
 

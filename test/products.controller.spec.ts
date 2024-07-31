@@ -6,7 +6,6 @@ import { Product } from '../src/products/entities/product.entity';
 import { Repository } from 'typeorm';
 import { BadRequestException } from '@nestjs/common';
 
-
 describe('ProductsController', () => {
   let controller: ProductsController;
   let service: ProductsService;
@@ -15,18 +14,12 @@ describe('ProductsController', () => {
     const module: TestingModule = await Test.createTestingModule({
       controllers: [ProductsController],
       providers: [
-        // ProductsService,
-        // {
-        //   provide: getRepositoryToken(Product),
-        //   useClass: Repository,
-        // },
-
-                {
+        {
           provide: ProductsService,
           useValue: {
             searchProducts: jest.fn(),
           },
-        }
+        },
       ],
     }).compile();
 
